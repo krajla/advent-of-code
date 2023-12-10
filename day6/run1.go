@@ -5,7 +5,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"slices"
 	"strings"
@@ -16,7 +15,7 @@ type race struct {
 	distance int
 }
 
-func Run() {
+func Run1() {
 	file, err := os.Open("./day6/input")
 	if err != nil {
 		log.Fatal(err)
@@ -25,8 +24,7 @@ func Run() {
 	scan := bufio.NewScanner(file)
 	scan.Split(bufio.ScanLines)
 
-	racesP1 := make([]race, 0)
-	raceP2 := race{}
+	races := make([]race, 0)
 
 	scan.Scan()
 	times := splitParseLine(scan.Text())
@@ -34,16 +32,11 @@ func Run() {
 	distances := splitParseLine(scan.Text())
 	for i := 0; i < len(times); i++ {
 		time, distance := times[i], distances[i]
-		racesP1 = append(racesP1, race{time: time, distance: distance})
-
-		raceP2.time *= int(math.Pow10(util.LenInt(time)))
-		raceP2.time += time
-		raceP2.distance *= int(math.Pow10(util.LenInt(distance)))
-		raceP2.distance += distance
+		races = append(races, race{time: time, distance: distance})
 	}
 
 	result := 1
-	for _, race := range racesP1 {
+	for _, race := range races {
 		optimal := race.time / 2
 		lowerLimit := bSearchLimit(0, optimal, race.time, race.distance)
 		upperLimit := race.time - lowerLimit
@@ -52,13 +45,7 @@ func Run() {
 		result *= limitRange
 	}
 
-	optimal := raceP2.time / 2
-	lowerLimit := bSearchLimit(0, optimal, raceP2.time, raceP2.distance)
-	upperLimit := raceP2.time - lowerLimit
-	limitRange := upperLimit - lowerLimit + 1
-
 	fmt.Printf("Limits results: %d\n", result)
-	fmt.Printf("Limit full race: %d\n", limitRange)
 }
 
 func bSearchLimit(start, end, time, distance int) int {
