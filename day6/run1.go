@@ -45,7 +45,7 @@ func Run1() {
 		result *= limitRange
 	}
 
-	fmt.Printf("Limits results: %d\n", result)
+	fmt.Printf("Day6 Pt1 - Limits results: %d\n", result)
 }
 
 func bSearchLimit(start, end, time, distance int) int {

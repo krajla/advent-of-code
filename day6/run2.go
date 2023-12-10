@@ -38,5 +38,5 @@ func Run2() {
 	upperLimit := race.time - lowerLimit
 	limitRange := upperLimit - lowerLimit + 1
 
-	fmt.Printf("Limit full race: %d\n", limitRange)
+	fmt.Printf("Day6 Pt2 - Limit full race: %d\n", limitRange)
 }
