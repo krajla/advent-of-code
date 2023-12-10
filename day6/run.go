@@ -1,13 +1,13 @@
 package day6
 
 import (
+	"adventofcode/util"
 	"bufio"
 	"fmt"
 	"log"
 	"math"
 	"os"
 	"slices"
-	"strconv"
 	"strings"
 )
 
@@ -36,9 +36,9 @@ func Run() {
 		time, distance := times[i], distances[i]
 		racesP1 = append(racesP1, race{time: time, distance: distance})
 
-		raceP2.time *= int(math.Pow10(lenInt(time)))
+		raceP2.time *= int(math.Pow10(util.LenInt(time)))
 		raceP2.time += time
-		raceP2.distance *= int(math.Pow10(lenInt(distance)))
+		raceP2.distance *= int(math.Pow10(util.LenInt(distance)))
 		raceP2.distance += distance
 	}
 
@@ -91,28 +91,8 @@ func splitParseLine(line string) []int {
 
 	elements := make([]int, 0, len(parts))
 	for i := 1; i < len(parts); i++ {
-		el := quickAtoi(strings.TrimSpace(parts[i]))
+		el := util.QuickAtoi(strings.TrimSpace(parts[i]))
 		elements = append(elements, el)
 	}
 	return elements
-}
-
-func lenInt(i int) int {
-	if i == 0 {
-		return 1
-	}
-	count := 0
-	for i != 0 {
-		i /= 10
-		count++
-	}
-	return count
-}
-
-func quickAtoi(str string) int {
-	n, err := strconv.Atoi(str)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return n
 }
