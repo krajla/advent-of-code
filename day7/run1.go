@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var cards1 = []uint8{'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'}
+var cards1 = []byte{'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'}
 
 type handBid struct {
 	hand  string
@@ -58,8 +58,8 @@ func Run1() {
 func calcHandPower1(hand string) int {
 	// Poor man's max heap.
 	max1, max2 := 0, 0
-	maxCard := uint8('.')
-	freq := make(map[uint8]int, len(cards1))
+	maxCard := byte('.')
+	freq := make(map[byte]int, len(cards1))
 	for i := 0; i < len(hand); i++ {
 		freq[hand[i]]++
 		if freq[hand[i]] >= max1 {

@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var cards2 = []uint8{'A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'}
+var cards2 = []byte{'A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J'}
 
 func Run2() {
 	file, err := os.Open("./day7/input")
@@ -52,8 +52,8 @@ func Run2() {
 func calcHandPower2(hand string) int {
 	// Poor man's max heap.
 	max1, max2 := 0, 0
-	maxCard := uint8('.')
-	freq := make(map[uint8]int, len(cards2))
+	maxCard := byte('.')
+	freq := make(map[byte]int, len(cards2))
 	for i := 0; i < len(hand); i++ {
 		freq[hand[i]]++
 		if hand[i] == 'J' {
