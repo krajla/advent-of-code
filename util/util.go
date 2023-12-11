@@ -47,11 +47,3 @@ func IntAbs(n int) int {
 	}
 	return n
 }
-
-func IntDistance(a, b int) int {
-	if a < 0 && b < 0 {
-		return IntAbs(a + b)
-	}
-
-	return IntAbs(a - b)
-}
