@@ -21,9 +21,9 @@ func Run2() {
 	race := race{}
 
 	scan.Scan()
-	times := splitParseLine(scan.Text())
+	times := util.SplitParseLine(scan.Text(), 1)
 	scan.Scan()
-	distances := splitParseLine(scan.Text())
+	distances := util.SplitParseLine(scan.Text(), 1)
 	for i := 0; i < len(times); i++ {
 		time, distance := times[i], distances[i]
 

@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"slices"
-	"strings"
 )
 
 type race struct {
@@ -27,9 +25,9 @@ func Run1() {
 	races := make([]race, 0)
 
 	scan.Scan()
-	times := splitParseLine(scan.Text())
+	times := util.SplitParseLine(scan.Text(), 1)
 	scan.Scan()
-	distances := splitParseLine(scan.Text())
+	distances := util.SplitParseLine(scan.Text(), 1)
 	for i := 0; i < len(times); i++ {
 		time, distance := times[i], distances[i]
 		races = append(races, race{time: time, distance: distance})
@@ -68,18 +66,4 @@ func bSearchLimit(start, end, time, distance int) int {
 
 func calcDistance(time, windup int) int {
 	return (time - windup) * windup
-}
-
-func splitParseLine(line string) []int {
-	parts := strings.Split(line, " ")
-	parts = slices.DeleteFunc(parts, func(s string) bool {
-		return s == ""
-	})
-
-	elements := make([]int, 0, len(parts))
-	for i := 1; i < len(parts); i++ {
-		el := util.QuickAtoi(strings.TrimSpace(parts[i]))
-		elements = append(elements, el)
-	}
-	return elements
 }
