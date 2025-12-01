@@ -1,7 +1,10 @@
 package util
 
 import (
+	"bufio"
+	"iter"
 	"log"
+	"os"
 	"slices"
 	"strconv"
 	"strings"
@@ -46,4 +49,21 @@ func IntAbs(n int) int {
 		return n * -1
 	}
 	return n
+}
+
+func FileScanner(path string) iter.Seq[string] {
+	return func(yield func(string) bool) {
+		file, err := os.Open(path)
+		if err != nil {
+			return
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			if !yield(scanner.Text()) {
+				return
+			}
+		}
+	}
 }
