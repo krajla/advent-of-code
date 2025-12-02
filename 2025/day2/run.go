@@ -117,7 +117,7 @@ func sumForBoundLength(a, b, n int) uint64 {
 	}
 
 	totals := make(map[int]uint64, len(currentSet))
-	// Split problem into subdivisions of size m and sum the up.
+	// Split problem into subdivisions of seq size and sum them up.
 	for _, seq := range currentSet {
 
 		// Instead of summing mplicated digit sequences, we calculate the sum of the series
@@ -127,7 +127,7 @@ func sumForBoundLength(a, b, n int) uint64 {
 
 	// Since we don't count every element and only do operations on sequences
 	// we must delete values counted multiples times, we do this by subtracting
-	// totals from subsequences that divide our subsequence.
+	// totals from seqs that divide our seq.
 	total := uint64(0)
 	for i := range totals {
 		dedupTotal := totals[i]
@@ -135,7 +135,6 @@ func sumForBoundLength(a, b, n int) uint64 {
 			dedupTotal -= totals[dupI]
 		}
 
-		//fmt.Printf("%d %d length: %d seq: %d = %d\n", a, b, n, i, dedupTotal)
 		total += dedupTotal
 	}
 	return total
