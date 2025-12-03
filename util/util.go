@@ -67,3 +67,11 @@ func FileScanner(path string) iter.Seq[string] {
 		}
 	}
 }
+
+func NumSliceToNum[T ~int](slice []T) int {
+	num := 0
+	for _, s := range slice {
+		num = num*10 + int(s)
+	}
+	return num
+}
