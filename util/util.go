@@ -75,3 +75,17 @@ func NumSliceToNum[T ~int](slice []T) int {
 	}
 	return num
 }
+
+func Min[T ~int](a, b T) T {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func Max[T ~int](a, b T) T {
+	if a > b {
+		return a
+	}
+	return b
+}
