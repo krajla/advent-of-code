@@ -89,3 +89,19 @@ func Max[T ~int](a, b T) T {
 	}
 	return b
 }
+
+type Range struct {
+	Start int
+	End   int
+}
+
+func CmpRange(a, b Range) int {
+	if a.Start != b.Start {
+		return a.Start - b.Start
+	}
+	return a.End - b.End
+}
+
+func (a Range) Overlaps(b Range) bool {
+	return a.Start <= b.End && a.End >= b.Start
+}
