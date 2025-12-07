@@ -37,7 +37,7 @@ func Part1() {
 		prevLine = byteLine
 	}
 
-	fmt.Printf("Day6 Pt1 - Total: %d\n", res)
+	fmt.Printf("Day7 Pt1 - Total: %d\n", res)
 }
 
 func Part2() {
@@ -72,5 +72,5 @@ func Part2() {
 		res += uint64(n)
 	}
 
-	fmt.Printf("Day6 Pt1 - Total: %d\n", res)
+	fmt.Printf("Day7 Pt2 - Total: %d\n", res)
 }
