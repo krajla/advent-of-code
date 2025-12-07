@@ -22,3 +22,7 @@
 
 # Go workspace file
 go.work
+
+input
+input2
+input.txt
