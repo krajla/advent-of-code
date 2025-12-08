@@ -14,9 +14,10 @@ func main() {
 	fmt.Printf("Part1 arrays time: %v\n", elapsed)
 
 	t = time.Now()
-	day8_dsu.Part1()
+	tt := day8_dsu.Part1()
 	elapsed = time.Since(t)
 	fmt.Printf("Part1 DSU time: %v\n", elapsed)
+	fmt.Printf("Part1 TRUE DSU time: %v\n", tt)
 
 	fmt.Println()
 
@@ -26,7 +27,8 @@ func main() {
 	fmt.Printf("Part2 arrays time: %v\n", elapsed)
 
 	t = time.Now()
-	day8_dsu.Part2()
+	tt = day8_dsu.Part2()
 	elapsed = time.Since(t)
 	fmt.Printf("Part2 DSU time: %v\n", elapsed)
+	fmt.Printf("Part2 TRUE DSU time: %v\n", tt)
 }

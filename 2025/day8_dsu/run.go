@@ -2,10 +2,12 @@ package day8
 
 import (
 	"adventofcode/util"
+	"container/heap"
 	"fmt"
 	"math"
 	"slices"
 	"strings"
+	"time"
 )
 
 type node struct {
@@ -27,40 +29,58 @@ type edge struct {
 	distance float64
 }
 
-func Part1() {
+type pq []edge
+
+func (pq pq) Len() int           { return len(pq) }
+func (pq pq) Less(i, j int) bool { return pq[i].distance < pq[j].distance }
+func (pq pq) Swap(i, j int)      { pq[i], pq[j] = pq[j], pq[i] }
+
+func (pq *pq) Push(x any) {
+	*pq = append(*pq, x.(edge))
+}
+
+func (pq *pq) Pop() any {
+	old := *pq
+	n := len(old)
+	x := old[n-1]
+	*pq = old[:n-1]
+	return x
+}
+
+func Part1() time.Duration {
 	lineIter := util.FileScanner("./day8/input.txt")
 
 	groups := util.NewDSU[node]()
-	edges := make([]edge, 0, 1000000)
-	{
-		nodes := make([]node, 0, 1000)
-		for line := range lineIter {
-			parts := strings.Split(line, ",")
-			node := node{
-				x: util.QuickAtoi(parts[0]),
-				y: util.QuickAtoi(parts[1]),
-				z: util.QuickAtoi(parts[2]),
-			}
+	h := &pq{}
+	heap.Init(h)
 
-			groups.Find(node)
-			nodes = append(nodes, node)
+	nodes := make([]node, 0, 1000)
+	for line := range lineIter {
+		parts := strings.Split(line, ",")
+		node := node{
+			x: util.QuickAtoi(parts[0]),
+			y: util.QuickAtoi(parts[1]),
+			z: util.QuickAtoi(parts[2]),
 		}
 
-		for i, n1 := range nodes {
-			for _, n2 := range nodes[i+1:] {
-				edges = append(edges, edge{
-					n1:       n1,
-					n2:       n2,
-					distance: n1.nodeDistance(n2),
-				})
+		groups.Find(node)
+		nodes = append(nodes, node)
+	}
+
+	t := time.Now()
+	for i, n1 := range nodes {
+		for _, n2 := range nodes[i+1:] {
+			edge := edge{
+				n1:       n1,
+				n2:       n2,
+				distance: n1.nodeDistance(n2),
 			}
+			heap.Push(h, edge)
 		}
 	}
-	slices.SortFunc(edges, func(a, b edge) int {
-		return int(a.distance - b.distance)
-	})
 
-	for _, e := range edges[:1000] {
+	for range 1000 {
+		e := heap.Pop(h).(edge)
 		if !groups.SameSet(e.n1, e.n2) {
 			groups.Union(e.n1, e.n2)
 		}
@@ -74,44 +94,47 @@ func Part1() {
 		res *= lens[len(lens)-i-1]
 	}
 
+	elapsed := time.Since(t)
 	fmt.Printf("Day8 Pt1 - Total: %d\n", res)
+	return elapsed
 }
 
-func Part2() {
+func Part2() time.Duration {
 	lineIter := util.FileScanner("./day8/input.txt")
 
 	groups := util.NewDSU[node]()
-	edges := make([]edge, 0, 1000000)
-	{
-		nodes := make([]node, 0, 1000)
-		for line := range lineIter {
-			parts := strings.Split(line, ",")
-			node := node{
-				x: util.QuickAtoi(parts[0]),
-				y: util.QuickAtoi(parts[1]),
-				z: util.QuickAtoi(parts[2]),
-			}
+	h := &pq{}
+	heap.Init(h)
 
-			groups.Find(node)
-			nodes = append(nodes, node)
+	nodes := make([]node, 0, 1000)
+	for line := range lineIter {
+		parts := strings.Split(line, ",")
+		node := node{
+			x: util.QuickAtoi(parts[0]),
+			y: util.QuickAtoi(parts[1]),
+			z: util.QuickAtoi(parts[2]),
 		}
 
-		for i, n1 := range nodes {
-			for _, n2 := range nodes[i+1:] {
-				edges = append(edges, edge{
-					n1:       n1,
-					n2:       n2,
-					distance: n1.nodeDistance(n2),
-				})
+		groups.Find(node)
+		nodes = append(nodes, node)
+	}
+
+	t := time.Now()
+	for i, n1 := range nodes {
+		for _, n2 := range nodes[i+1:] {
+			edge := edge{
+				n1:       n1,
+				n2:       n2,
+				distance: n1.nodeDistance(n2),
 			}
+			heap.Push(h, edge)
 		}
 	}
-	slices.SortFunc(edges, func(a, b edge) int {
-		return int(a.distance - b.distance)
-	})
 
 	res := uint64(0)
-	for _, e := range edges {
+	for {
+		e := heap.Pop(h).(edge)
+
 		if !groups.SameSet(e.n1, e.n2) {
 			groups.Union(e.n1, e.n2)
 
@@ -122,5 +145,7 @@ func Part2() {
 		}
 	}
 
+	elapsed := time.Since(t)
 	fmt.Printf("Day8 Pt2 - Total: %d\n", res)
+	return elapsed
 }
