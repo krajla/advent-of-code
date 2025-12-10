@@ -1,9 +1,11 @@
 package main
 
 import (
-	"adventofcode/day9"
+	"adventofcode/day10"
+	"fmt"
 )
 
 func main() {
-	day9.Part2()
+	t := day10.Part1()
+	fmt.Printf("Part1 time: %v", t)
 }
